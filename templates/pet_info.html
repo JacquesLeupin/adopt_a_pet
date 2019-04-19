@@ -1,0 +1,28 @@
+{%extends 'base.html'%}
+
+{%block title%}AddPet{%endblock%}
+
+{% block content %}
+
+
+{{pet.name}}
+<img src="{{pet.photo_url}}" alt="couldn't load">
+{{pet.age}}
+{{pet.species}}
+
+<form method="POST">
+
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    {%for field in form if field.widget.input_type != 'hidden'%}
+    <p>
+    {{field.label}}
+    {{field}}
+    </p>
+    {% endfor %}
+    <button type="submit">submit</button>
+
+
+</form>
+
+{% endblock %}
