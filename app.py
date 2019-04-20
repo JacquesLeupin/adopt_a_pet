@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, render_template, flash
 from models import db, connect_db, Pet
 from forms import AddPetForm, EditPetForm
 from flask_debugtoolbar import DebugToolbarExtension
+from pat_finder import show_response
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecrethehe'
@@ -20,6 +21,11 @@ db.create_all()
 
 @app.route('/')
 def index():
+    print("HELLO WE ARE RUNNING REPONSE:" * 10)
+    first_animal = show_response()
+    animal = Pet(**first_animal) # **first_animal just means that you make keyword arguments: like (name=name1, species)
+    db.session.add(animal)
+    db.session.commit()
     pets = Pet.query.all()
     return render_template('base.html', pets=pets)
 
@@ -60,3 +66,8 @@ def pet_info(petid):
 
     else:
         return render_template('pet_info.html', pet=pet, form=form)
+
+
+
+
+
